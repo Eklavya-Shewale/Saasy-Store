@@ -1,0 +1,31 @@
+# Java and Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# IDE and editor files
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.vscode/
+oracleJdk-26/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
