@@ -4,17 +4,19 @@
 
 * Phase 0 — Repository and environment inspection (2026-08-18)
 * Phase 1 — Backend project foundation (implemented and Maven-verified, 2026-08-18)
+* Phase 2 — Database + product/category domain (implemented, verified with local PostgreSQL, committed and pushed)
+* Phase 3 — Google OAuth/OIDC administrator authentication and server-side authorization (implemented and Maven-verified, 2026-08-20)
 
 ## Current state
 
-The repository now contains the Spring Boot foundation plus a migration-controlled
-PostgreSQL catalogue domain. Security, storage, APIs, and frontend code have not
-been started.
+The repository contains the Spring Boot foundation, a migration-controlled
+PostgreSQL catalogue domain, and Phase 3 Google OAuth/OIDC administrator
+authentication with server-side authorization. Storage, catalogue APIs, and
+frontend code have not been started.
 
 ## Current phase
 
-Phase 2 — Database + product/category domain is implemented and awaiting Maven
-verification in the VS Code terminal.
+Phase 3 is complete. Phase 4 has not been started.
 
 ## Environment findings
 
@@ -36,15 +38,19 @@ The catalogue persistence layer uses Spring Data JPA, PostgreSQL, and Flyway.
 Products belong to exactly one category through a lazy many-to-one association;
 the database schema is created only by Flyway and validated by Hibernate.
 
+Admin sign-in uses Spring Security's OAuth2 client support and Google OIDC. The
+`ADMIN_EMAIL` environment variable determines the sole permitted administrator;
+the OIDC user service grants `ROLE_ADMIN` only when the verified Google email
+claim matches it. `/api/admin/**` is enforced server-side, while planned public
+catalogue GET routes remain public. OAuth credentials are environment-only.
+
 ## Known issues
 
-The Codex execution shell does not currently resolve `mvn`, although Maven is
-available in the VS Code terminal. PostgreSQL must be configured locally before
-running the API. The Git repository has no commits; no secrets or generated
-artifacts from the project build are present.
+PostgreSQL must be configured locally before running the API. A Google Cloud
+OAuth Web application and exact callback URI must be configured manually before
+testing real login.
 
 ## Next recommended task
 
-Run `mvn clean verify` from the VS Code terminal to verify Phase 2. After it
-passes, the next implementation phase is Phase 3: Google OAuth-based admin
-authentication and server-side authorization.
+Phase 4: implement product/category REST APIs with DTOs, validation, service
+layer separation, and the Phase 3 `/api/admin/**` authorization boundary.
